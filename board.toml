@@ -55,7 +55,7 @@ MU_SCHEMA_FILE_NAME = "AndromedaPkgCfgData.xml"
 
 [payload]
 volume = "GUACESP"
-size_mib = 64
+size_mib = 32
 loader = "firmware"
 title = "Redmi K20 Pro - XNU"
 dram_size = "0xc0000000"
