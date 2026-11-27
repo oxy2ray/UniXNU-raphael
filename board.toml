@@ -69,6 +69,9 @@ kernel_args = [
   "-enable_kprintf_spam",
   "-noprogress",
   "rd=ufsroot0",
+  # multi-boot: Android keeps the GPT partition "userdata" as /data;
+  # the iOS root lives in its own GPT partition named "iosroot".
+  "ufsroot=iosroot",
   "unentitled_ios_sim_launch=1",
   "ignition_level=1",
   "wdt_test=no_user_checkin",
