@@ -24,6 +24,11 @@ name: build-raphael
 on:
   workflow_dispatch:
     inputs:
+      runner:
+        description: 'GitHub-hosted macOS runner label'
+        required: false
+        default: 'macos-13'
+        type: string
       variant:
         description: >
           "full" = the complete port. "bootshim_upstream" = identical, but
@@ -52,7 +57,7 @@ jobs:
     # billable duration of 0 ms, while ubuntu-latest and macos-15 both work).
     # oxy2ray: macos-15 (arm64) 拿不到 runner（"not acquired ... after multiple
     # attempts"），改用 Intel 池的 macos-14。
-    runs-on: macos-13
+    runs-on: ${{ inputs.runner || 'macos-13' }}
     timeout-minutes: 240
     env:
       # Without MACOS_VERSION build.sh pops an interactive gum menu and dies
