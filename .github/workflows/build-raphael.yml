@@ -349,7 +349,7 @@ jobs:
           # 所以逐个初始化，失败的（目前只有 NativeMetal）跳过。
           submodules: false
 
-      - name: Init UniXNU submodules (tolerant: one pinned commit is unreachable)
+      - name: Init UniXNU submodules (tolerant, one pinned commit is unreachable)
         working-directory: unixnu
         continue-on-error: true
         run: |
