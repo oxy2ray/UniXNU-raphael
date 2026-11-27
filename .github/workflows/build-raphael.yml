@@ -343,9 +343,22 @@ jobs:
           ref: b6ae99c17194e6a18fd819d3148e69fe405e91fc
           path: unixnu
           # oxy2ray: 上游 drivers/NativeMetal 的 pinned commit 已不可达
-          # ("upload-pack: not our ref 6dcd4cb…")，导致整个 checkout 失败。
-          # 打包 UEFI + payload 不需要该子模块，先跳过；需要时再按需拉取。
+          # ("upload-pack: not our ref 6dcd4cb…")，recursive checkout 会整体失败。
+          # 这些子模块里有 DarwinBoot / NativeUfs / NativeRamBlock / NativeMobileDisplay，
+          # 少了它们固件里没有载荷加载能力（表现为 UEFI "device recovery"）。
+          # 所以逐个初始化，失败的（目前只有 NativeMetal）跳过。
           submodules: false
+
+      - name: Init UniXNU submodules (tolerant: one pinned commit is unreachable)
+        working-directory: unixnu
+        continue-on-error: true
+        run: |
+          git submodule init
+          git config --file .gitmodules --get-regexp path | awk '{print $2}' | while read -r p; do
+            if git submodule update --init --depth 1 "$p"; then echo "ok   $p"; else echo "SKIP $p"; fi
+          done
+          echo "--- 结果 ---"
+          git submodule status || true
 
       - name: Checkout Project Aloha UEFI (SM8150)
         uses: actions/checkout@v4
