@@ -50,7 +50,9 @@ jobs:
     # macos-14 runner image is cancelled within seconds of the job starting
     # (every macos-14 run since 2026-11-14 ends "cancelled" in 1-3 s with a
     # billable duration of 0 ms, while ubuntu-latest and macos-15 both work).
-    runs-on: macos-15
+    # oxy2ray: macos-15 (arm64) 拿不到 runner（"not acquired ... after multiple
+    # attempts"），改用 Intel 池的 macos-14。
+    runs-on: macos-14
     timeout-minutes: 240
     env:
       # Without MACOS_VERSION build.sh pops an interactive gum menu and dies
