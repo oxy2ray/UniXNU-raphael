@@ -342,7 +342,10 @@ jobs:
           repository: UniXNU/UniXNU
           ref: b6ae99c17194e6a18fd819d3148e69fe405e91fc
           path: unixnu
-          submodules: recursive
+          # oxy2ray: 上游 drivers/NativeMetal 的 pinned commit 已不可达
+          # ("upload-pack: not our ref 6dcd4cb…")，导致整个 checkout 失败。
+          # 打包 UEFI + payload 不需要该子模块，先跳过；需要时再按需拉取。
+          submodules: false
 
       - name: Checkout Project Aloha UEFI (SM8150)
         uses: actions/checkout@v4
